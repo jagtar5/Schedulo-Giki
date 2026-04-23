@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}GIK Timetable Scheduler — Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-10">
+        <!-- Hero -->
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold">
+                <i class="bi bi-calendar3 text-primary"></i>
+                Automated Timetable Scheduler
+            </h1>
+            <p class="lead text-muted">
+                GIK Institute &bull; CS378 — Design &amp; Analysis of Algorithms
+            </p>
+        </div>
+
+        <!-- Two option cards -->
+        <div class="row g-4 justify-content-center mb-5">
+            <div class="col-md-5">
+                <div class="card h-100 border-primary card-hover">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-database-fill-gear display-3 text-primary mb-3"></i>
+                        <h4 class="card-title">Load Demo Data</h4>
+                        <p class="card-text text-muted">
+                            Populate the database instantly with pre‑configured GIK courses,
+                            teachers, rooms, and time slots for quick testing.
+                        </p>
+                        <form action="{{ url_for('main.load_demo') }}" method="post">
+                            <button type="submit" class="btn btn-primary btn-lg mt-2">
+                                <i class="bi bi-lightning-charge-fill"></i> Load Demo
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card h-100 border-success card-hover">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-pencil-square display-3 text-success mb-3"></i>
+                        <h4 class="card-title">Manual Data Entry</h4>
+                        <p class="card-text text-muted">
+                            Build your dataset from scratch — add teachers, courses,
+                            rooms, and groups one by one through the management pages.
+                        </p>
+                        <a href="{{ url_for('main.teachers') }}" class="btn btn-success btn-lg mt-2">
+                            <i class="bi bi-arrow-right-circle"></i> Start Manually
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Row -->
+        <h5 class="text-muted mb-3"><i class="bi bi-bar-chart"></i> Current Data Snapshot</h5>
+        <div class="row g-3 mb-4">
+            {% set stat_items = [
+                ("Teachers",  stats.teachers,  "person-badge", "primary"),
+                ("Courses",   stats.courses,   "book",         "info"),
+                ("Rooms",     stats.rooms,     "building",     "success"),
+                ("Groups",    stats.groups,    "people",       "warning"),
+                ("Time Slots",stats.timeslots, "clock",        "secondary"),
+                ("Offerings", stats.offerings, "link-45deg",   "danger"),
+                ("Scheduled", stats.schedules, "check2-circle","light"),
+            ] %}
+            {% for label, count, icon, color in stat_items %}
+            <div class="col-6 col-md-3 col-lg">
+                <div class="card text-center border-{{ color }} card-hover">
+                    <div class="card-body py-3">
+                        <i class="bi bi-{{ icon }} fs-4 text-{{ color }}"></i>
+                        <h3 class="mb-0 fw-bold">{{ count }}</h3>
+                        <small class="text-muted">{{ label }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Danger zone -->
+        <div class="text-center">
+            <form action="{{ url_for('main.clear_data') }}" method="post"
+                  onsubmit="return confirm('⚠️ This will delete ALL data. Are you sure?');">
+                <button class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-trash3"></i> Clear All Data
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

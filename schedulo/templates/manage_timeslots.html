@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Manage Time Slots{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <div class="card border-secondary">
+            <div class="card-header bg-secondary text-white">
+                <i class="bi bi-clock-fill"></i> Add Time Slot
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('main.add_timeslot') }}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Day of Week</label>
+                        <select name="day" class="form-select" required>
+                            <option value="Mon">Monday</option>
+                            <option value="Tue">Tuesday</option>
+                            <option value="Wed">Wednesday</option>
+                            <option value="Thu">Thursday</option>
+                            <option value="Fri">Friday</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Start Time</label>
+                        <input type="time" name="start_time" class="form-control" required value="08:00">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">End Time</label>
+                        <input type="time" name="end_time" class="form-control" required value="09:00">
+                    </div>
+                    <button class="btn btn-secondary w-100"><i class="bi bi-plus-lg"></i> Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-clock"></i> Time Slots ({{ items|length }})
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Day</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td><span class="badge bg-secondary">{{ item.day }}</span></td>
+                                <td>{{ item.start_time }}</td>
+                                <td>{{ item.end_time }}</td>
+                                <td class="text-end">
+                                    <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
+                                            data-bs-target="#editModal{{ item.id }}">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <form action="{{ url_for('main.delete_timeslot', id=item.id) }}"
+                                          method="post" class="d-inline"
+                                          onsubmit="return confirm('Delete this time slot?');">
+                                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="editModal{{ item.id }}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="{{ url_for('main.edit_timeslot', id=item.id) }}" method="post">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit Time Slot #{{ item.id }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Day</label>
+                                                    <select name="day" class="form-select">
+                                                        {% for d in ['Mon','Tue','Wed','Thu','Fri'] %}
+                                                        <option value="{{ d }}" {% if item.day == d %}selected{% endif %}>{{ d }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Start</label>
+                                                    <input type="time" name="start_time" class="form-control"
+                                                           value="{{ item.start_time }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">End</label>
+                                                    <input type="time" name="end_time" class="form-control"
+                                                           value="{{ item.end_time }}">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-info">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <tr><td colspan="5" class="text-center text-muted py-4">No time slots yet.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
