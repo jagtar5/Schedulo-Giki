@@ -48,6 +48,36 @@
             <div class="card-header">
                 <i class="bi bi-link-45deg"></i> Course Offerings ({{ items|length }})
             </div>
+            <div class="card-body border-bottom">
+                <form method="get" action="{{ url_for('main.offerings') }}" class="row g-2">
+                    <div class="col-md-5">
+                        <label class="form-label mb-1">Filter by Student Group</label>
+                        <select name="group_id" class="form-select form-select-sm">
+                            <option value="">All Groups</option>
+                            {% for g in groups %}
+                            <option value="{{ g.id }}" {% if selected_group_id == g.id %}selected{% endif %}>
+                                {{ g.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label mb-1">Filter by Course</label>
+                        <select name="course_id" class="form-select form-select-sm">
+                            <option value="">All Courses</option>
+                            {% for c in courses %}
+                            <option value="{{ c.id }}" {% if selected_course_id == c.id %}selected{% endif %}>
+                                {{ c.code }} — {{ c.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end gap-2">
+                        <button class="btn btn-sm btn-primary w-100">Apply</button>
+                        <a href="{{ url_for('main.offerings') }}" class="btn btn-sm btn-outline-secondary w-100">Clear</a>
+                    </div>
+                </form>
+            </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 align-middle">

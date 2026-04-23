@@ -11,8 +11,12 @@
 
 /* Timetable grid */
 .timetable-grid td {
-    min-width: 160px;
+    min-width: 140px;
     vertical-align: top;
+}
+
+.timetable-grid th {
+    min-width: 130px;
 }
 
 /* Schedule cards inside the grid */
@@ -22,6 +26,7 @@
     font-size: 0.82rem;
     text-align: left;
     transition: transform 0.15s ease;
+    min-height: 72px;
 }
 .schedule-card:hover {
     transform: scale(1.03);

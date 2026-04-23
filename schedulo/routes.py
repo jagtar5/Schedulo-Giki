@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import db, Teacher, Course, Room, StudentGroup, TimeSlot, CourseOffering, Schedule
+from algorithm import generate_hard_timetable
 
 main = Blueprint("main", __name__)
 
@@ -284,7 +285,16 @@ def delete_timeslot(id):
 
 @main.route("/offerings")
 def offerings():
-    items = CourseOffering.query.order_by(CourseOffering.id).all()
+    selected_group_id = request.args.get("group_id", "").strip()
+    selected_course_id = request.args.get("course_id", "").strip()
+
+    items_query = CourseOffering.query
+    if selected_group_id:
+        items_query = items_query.filter(CourseOffering.group_id == selected_group_id)
+    if selected_course_id:
+        items_query = items_query.filter(CourseOffering.course_id == selected_course_id)
+
+    items = items_query.order_by(CourseOffering.id).all()
     all_teachers = Teacher.query.order_by(Teacher.name).all()
     all_courses = Course.query.order_by(Course.code).all()
     all_groups = StudentGroup.query.order_by(StudentGroup.name).all()
@@ -294,6 +304,8 @@ def offerings():
         teachers=all_teachers,
         courses=all_courses,
         groups=all_groups,
+        selected_group_id=selected_group_id,
+        selected_course_id=selected_course_id,
     )
 
 
@@ -336,40 +348,100 @@ def delete_offering(id):
 # ══════════════════════════════════════════════════════════════════════════════
 
 @main.route("/timetable")
-def timetable():
-    schedules = Schedule.query.all()
-    timeslots = TimeSlot.query.order_by(TimeSlot.start_time).all()
+@main.route("/timetable/<string:day>")
+def timetable(day="Mon"):
     days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+    selected_day = day if day in days else "Mon"
 
-    # Build unique sorted time ranges
-    time_ranges = sorted(
-        list({(ts.start_time, ts.end_time) for ts in timeslots}),
-        key=lambda x: x[0],
+    selected_group_id = request.args.get("group_id", "").strip()
+    selected_teacher_id = request.args.get("teacher_id", "").strip()
+    selected_course_id = request.args.get("course_id", "").strip()
+
+    schedules_query = Schedule.query
+    if selected_group_id or selected_teacher_id or selected_course_id:
+        schedules_query = schedules_query.join(CourseOffering)
+        if selected_group_id:
+            schedules_query = schedules_query.filter(CourseOffering.group_id == selected_group_id)
+        if selected_teacher_id:
+            schedules_query = schedules_query.filter(CourseOffering.teacher_id == selected_teacher_id)
+        if selected_course_id:
+            schedules_query = schedules_query.filter(CourseOffering.course_id == selected_course_id)
+
+    all_schedules = schedules_query.all()
+    day_slots = (
+        TimeSlot.query.filter_by(day=selected_day)
+        .order_by(TimeSlot.start_time)
+        .all()
     )
+    rooms = Room.query.order_by(Room.name).all()
+    groups = StudentGroup.query.order_by(StudentGroup.name).all()
+    teachers = Teacher.query.order_by(Teacher.name).all()
+    courses = Course.query.order_by(Course.code).all()
 
-    # Build grid: grid[day][time_range] = list of schedule entries
-    grid = {}
-    for day in days:
-        grid[day] = {}
-        for tr in time_ranges:
-            grid[day][tr] = []
+    # Build room x timeslot matrix
+    grid = {room.id: {slot.id: [] for slot in day_slots} for room in rooms}
 
-    for s in schedules:
-        ts = s.timeslot
-        key = (ts.start_time, ts.end_time)
-        if ts.day in grid and key in grid[ts.day]:
-            grid[ts.day][key].append(s)
+    for sched in all_schedules:
+        if sched.timeslot.day == selected_day and sched.room_id in grid:
+            if sched.timeslot_id in grid[sched.room_id]:
+                grid[sched.room_id][sched.timeslot_id].append(sched)
 
     return render_template(
         "timetable.html",
-        grid=grid,
         days=days,
-        time_ranges=time_ranges,
-        total=len(schedules),
+        selected_day=selected_day,
+        rooms=rooms,
+        day_slots=day_slots,
+        grid=grid,
+        total=len(all_schedules),
+        day_total=sum(len(grid[r.id][s.id]) for r in rooms for s in day_slots),
+        groups=groups,
+        teachers=teachers,
+        courses=courses,
+        selected_group_id=selected_group_id,
+        selected_teacher_id=selected_teacher_id,
+        selected_course_id=selected_course_id,
     )
 
 
 @main.route("/generate", methods=["POST"])
 def generate():
-    flash("⚙️ Algorithm engine is not implemented yet — coming in Phase 2!", "info")
+    result = generate_hard_timetable()
+
+    if not result["success"]:
+        metrics = result.get("metrics", {})
+        flash(result.get("message", "Timetable generation failed."), "danger")
+        flash(
+            "Runtime: {} ms | Time: {} | Space: {}".format(
+                metrics.get("computation_time_ms", 0),
+                metrics.get("time_complexity", "N/A"),
+                metrics.get("space_complexity", "N/A"),
+            ),
+            "warning",
+        )
+        return redirect(url_for("main.timetable"))
+
+    Schedule.query.delete()
+    for item in result["assignments"]:
+        db.session.add(
+            Schedule(
+                offering_id=item["offering_id"],
+                room_id=item["room_id"],
+                timeslot_id=item["timeslot_id"],
+            )
+        )
+    db.session.commit()
+
+    metrics = result.get("metrics", {})
+    flash(result.get("message", "Timetable generated."), "success")
+    flash(
+        "Scheduled {} sessions | Runtime: {} ms | Restarts: {} | Time: {} | Space: {}".format(
+            len(result["assignments"]),
+            metrics.get("computation_time_ms", 0),
+            metrics.get("restarts_used", 0),
+            metrics.get("time_complexity", "N/A"),
+            metrics.get("space_complexity", "N/A"),
+        ),
+        "info",
+    )
     return redirect(url_for("main.timetable"))
