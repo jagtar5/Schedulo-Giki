@@ -24,7 +24,7 @@ def seed_database():
             id=t["teacher_id"],
             name=t["name"],
             department=t["department"],
-            max_consecutive=3,
+            max_consecutive=1,
         ))
     db.session.flush()
 

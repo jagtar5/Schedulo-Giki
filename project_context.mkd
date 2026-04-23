@@ -1,0 +1,197 @@
+# Schedulo — GIK Institute Timetable Scheduling System
+## Full Project Context Document (for AI handoff)
+
+**Course:** CS378 - Design and Analysis of Algorithms
+**Deadline:** May 4th, 2026, 2:00 PM
+**Stack:** Flask + SQLAlchemy + SQLite + Bootstrap 5 (Jinja2 templates)
+**Project Root:** `c:\Users\LENOVO P51\Desktop\giki\6th sem\CS378\Project\`
+**App Code:** `Project\schedulo\` subfolder
+**venv:** `Project\venv\` (Flask, flask-sqlalchemy installed)
+
+---
+
+## 1. Project Objective
+
+Build an automated, conflict-free weekly timetable generator for GIK Institute's FCSE faculty. The system has two phases:
+- **Phase 1 (DONE):** Database entities, CRUD UI, real GIK data seeding
+- **Phase 2 (in progress):** Hard-constraint scheduling is **implemented and integrated**; soft-constraint optimization and full PRD “fitness” reporting are **still TODO**
+
+---
+
+## 2. Directory Structure
+
+```
+Project/
+├── .gitignore
+├── requirements.txt          # flask, flask-sqlalchemy
+├── prd.mkd                   # Product Requirements Document
+├── trd.mkd                   # Technical Requirements Document
+├── CS378_Semester_Project.pdf # Assignment brief
+├── venv/
+└── schedulo/                 # ← All app code lives here
+    ├── app.py                # Flask factory, entry point (python app.py)
+    ├── config.py             # SECRET_KEY, SQLALCHEMY_DATABASE_URI
+    ├── models.py             # 7 SQLAlchemy models (all use String PKs)
+    ├── routes.py             # Full CRUD, timetable, filters, /generate
+    ├── algorithm.py        # Hard-constraint scheduler (hybrid: greedy + bounded backtrack + restarts)
+    ├── demo_data.py          # Seeds DB from formatted_data.py
+    ├── formatted_data.py     # Real GIK data (courses, teachers, groups, offerings, rooms, time_slots)
+    ├── analyze.py            # Data quality analysis script
+    ├── transform_data.py     # Script that split umbrella groups (already run, can delete)
+    ├── static/
+    │   ├── style.css         # Dark theme custom CSS
+    │   └── script.js         # UI helpers (loading spinner, auto-dismiss alerts)
+    └── templates/
+        ├── base.html         # Bootstrap 5 navbar + flash messages
+        ├── index.html        # Landing page with stats + Load Demo Data button
+        ├── manage_teachers.html
+        ├── manage_courses.html
+        ├── manage_rooms.html
+        ├── manage_groups.html
+        ├── manage_timeslots.html
+        ├── manage_offerings.html   # filters: group, course
+        └── timetable.html    # one weekday per view: rooms × time slots; filters: group, teacher, course
+```
+
+---
+
+## 3. Database Models (models.py)
+
+All 7 models use **String(10) primary keys** (e.g., "T001", "C001", "G031").
+
+| Model | Table | PK | Key Fields |
+|---|---|---|---|
+| `Teacher` | teachers | `id` (T001…) | name, department, max_consecutive (default 3) |
+| `Course` | courses | `id` (C001…) | code, name, sessions_required, is_elective |
+| `Room` | rooms | `id` (R001…) | name, faculty (building), capacity, room_type (Lecture/Lab) |
+| `StudentGroup` | student_groups | `id` (G001…) | name, total_students |
+| `TimeSlot` | time_slots | `id` (TS001…) | day (Mon–Fri), start_time, end_time |
+| `CourseOffering` | course_offerings | `id` (O001…) | course_id (FK), teacher_id (FK), group_id (FK) |
+| `Schedule` | schedules | `id` (auto int) | offering_id (FK), room_id (FK), timeslot_id (FK) |
+
+**CourseOffering** is the central unit the algorithm schedules — it links one Course × Teacher × StudentGroup.
+**Schedule** is the output table — each row assigns an offering to a room and time slot.
+
+---
+
+## 4. Data Summary (formatted_data.py)
+
+| Entity | Count | Notes |
+|---|---|---|
+| Courses | 76 | 17 electives, sessions_required: 1–3 per week |
+| Teachers | 78 | All FCSE, 6 are placeholders ("New Engr." / "TBA") |
+| Student Groups | 45 | Sem 2 (30 groups) + Sem 4/6/8 (6 programs × 3 = 18 new sub-groups) |
+| Rooms | 50 | 7 faculties: FCSE/FEE, FES, Acad. Block, BB, Incuba, FME, FMCE. Types: Lecture (80–150) or Lab (50) |
+| Time Slots | 40 | Mon–Thu: 8 slots (08:00–17:20, lunch break 13:20–14:30). Fri: 8 slots (different morning timings, prayer break) |
+| Course Offerings | 153 | Each needs `sessions_required` time slots scheduled |
+
+**Total sessions to schedule:** 335 session-slots across 153 offerings
+**Available capacity:** 50 rooms × 40 slots = 2,000 room-slots (plenty of room)
+
+### Time Slot Structure
+```
+Mon–Thu:  08:00-08:50 | 09:00-09:50 | 10:30-11:20 | 11:30-12:20 | 12:30-13:20 | [LUNCH] | 14:30-15:20 | 15:30-16:20 | 16:30-17:20
+Friday:   08:00-08:50 | 09:00-09:50 | 10:00-10:50 | 11:00-11:50 | 12:00-12:50 | [PRAYER] | 14:30-15:20 | 15:30-16:20 | 16:30-17:20
+```
+
+### Group Load (sessions/week per program)
+| Semester | BCS | BAI | BCE | BDS | CYS | SWE |
+|---|---|---|---|---|---|---|
+| 4 | 17 | 15 | 12 | 14 | 14 | 15 |
+| 6 | 24 | 20 | 23 | 18 | 16 | 22 |
+| 8 | 20 | 7 | 9 | 12 | 15 | 6 |
+
+All well under the 40-slot limit.
+
+### Known Data Quirks
+- **T019** has 4 people in one name field (team-taught lab)
+- **6 placeholder teachers** (T012, T013, T015, T017, T020, T043) — algorithm treats by ID
+- **7 minor duplicate offerings** remain in Sem 2 and 2 in Sem 6/8 (EE321 ×2 for BCE, DS4xx ×2 for BDS) — non-blocking
+
+---
+
+## 5. What's Done (Phase 1) ✅
+
+- [x] Flask MVC app with config, factory pattern
+- [x] 7 SQLAlchemy models with String PKs and proper FK relationships
+- [x] Full CRUD routes for all 6 input entities (Teachers, Courses, Rooms, Groups, TimeSlots, Offerings)
+- [x] Auto-ID generation helper (`_next_id()` in routes.py)
+- [x] Bootstrap 5 dark-themed templates with inline add forms, edit modals, delete confirmations
+- [x] Real GIK Institute data in `formatted_data.py` (not dummy data)
+- [x] Demo data seeder (`demo_data.py`) that loads from formatted_data.py
+- [x] Data quality verified — all FK integrity passes, no overloaded groups
+- [x] `.gitignore` configured
+
+---
+
+## 5B. Phase 2 — Done So Far (scheduling + UI) ✅
+
+### Algorithm (`schedulo/algorithm.py`)
+
+- **Hard constraints only** (first milestone): no teacher, room, or group **double-booking** in the same time slot; each offering gets **exactly** `Course.sessions_required` schedule rows.
+- **Lab vs Lecture room matching:** inferred from course **code** (suffix `L`) or **name** contains `Lab` (no extra DB field).
+- **Hybrid strategy:** greedy assignment of per-session “tasks” + **bounded local backtracking** + **random restarts**; occupancy tracked with sets for O(1)-average conflict checks.
+- **Output:** `generate_hard_timetable()` returns assignments plus metrics (`computation_time_ms`, stated time/space complexity, restart count, `hard_valid`).
+
+**Validated on demo data:** 335 session rows; zero teacher/room/group conflicts; per-offering session counts match `sessions_required`.
+
+### Route integration
+
+- **POST `/generate`** — clears `Schedule`, runs the solver, commits rows, flashes success and runtime / complexity metrics (or failure message).
+- **GET `/timetable` and GET `/timetable/<day>`** — `day` is one of `Mon` … `Fri` (default Mon). Navbar “Timetable” points to `/timetable`.
+
+### Timetable UI
+
+- **One weekday per page:** first column = all rooms; header row = that day’s time slots; cells show course code, section (group name), teacher.
+- **Query filters (kept when switching day):** `group_id`, `teacher_id`, `course_id` — per **section**, **instructor**, or **course** (including one course offered to many groups).
+
+### Offerings UI
+
+- **Query filters on `/offerings`:** `group_id` and `course_id` — narrow listings by student group and/or course.
+
+---
+
+## 6. What's Left (Phase 2) — TODO
+
+### 6A. Soft constraints and fitness (PRD)
+
+Not implemented in code yet; PRD goals for later optimization:
+1. Minimize student gaps on the same day
+2. Cap consecutive slots for teachers/groups (e.g. ≤3)
+3. Room capacity “fit” vs group size
+4. Teacher workload spread across the week
+5. Elective overlap avoidance
+
+**Next step:** e.g. `evaluate_soft_constraints()` on a **valid** `Schedule` + show **fitness** in the UI (PRD also asks for fitness with time/space).
+
+### 6B. Report and course deliverables
+
+- IEEE report (≥1500 words), complexity analysis, sample output, pseudocode appendix, plagiarism + AI ≤ 19%
+- Viva / demo as required
+
+### 6C. Optional
+
+- Room/building filters on timetable; export; optional explicit `course_type` on `Course` if you stop inferring lab from code/name
+
+---
+
+## 7. How to Run
+
+```bash
+cd Project\schedulo
+..\venv\Scripts\activate     # activate venv
+del timetable.db             # clear old DB if schema changed
+python app.py                # starts on http://localhost:5000
+```
+Click "Load Demo Data" on the landing page to seed all entities, then open **Timetable** and click **Generate Timetable** to build `schedules` from the algorithm.
+
+---
+
+## 8. Key Files to Read First
+
+1. `prd.mkd` — Full product requirements with constraints
+2. `trd.mkd` — Technical requirements with architecture decisions
+3. `models.py` — Database schema (7 models)
+4. `formatted_data.py` — All real data (courses, teachers, groups, offerings, rooms, time_slots)
+5. `algorithm.py` — hard-constraint scheduler
+6. `routes.py` — CRUD, `/generate`, `/timetable` with filters, `/offerings` with filters

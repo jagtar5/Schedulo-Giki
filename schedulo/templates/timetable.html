@@ -3,13 +3,65 @@
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0"><i class="bi bi-grid-3x3-gap text-warning"></i> Weekly Timetable</h2>
+    <h2 class="mb-0"><i class="bi bi-grid-3x3-gap text-warning"></i> {{ selected_day }} Timetable</h2>
     <div>
-        <span class="badge bg-light text-dark fs-6 me-2">{{ total }} scheduled entries</span>
+        <span class="badge bg-light text-dark fs-6 me-2">{{ day_total }} classes on {{ selected_day }}</span>
+        <span class="badge bg-secondary fs-6 me-2">{{ total }} weekly entries</span>
         <form action="{{ url_for('main.generate') }}" method="post" class="d-inline">
             <button class="btn btn-warning" id="generateBtn">
                 <i class="bi bi-lightning-charge-fill"></i> Generate Timetable
             </button>
+        </form>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div class="btn-group" role="group" aria-label="Weekday navigation">
+        {% for day in days %}
+        <a
+            href="{{ url_for('main.timetable', day=day, group_id=selected_group_id, teacher_id=selected_teacher_id, course_id=selected_course_id) }}"
+            class="btn {% if day == selected_day %}btn-warning{% else %}btn-outline-light{% endif %}"
+        >
+            {{ day }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body py-3">
+        <form method="get" action="{{ url_for('main.timetable', day=selected_day) }}" class="row g-2">
+            <div class="col-md-4">
+                <label class="form-label mb-1">Student Group</label>
+                <select name="group_id" class="form-select form-select-sm">
+                    <option value="">All Groups</option>
+                    {% for g in groups %}
+                    <option value="{{ g.id }}" {% if selected_group_id == g.id %}selected{% endif %}>{{ g.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label mb-1">Instructor</label>
+                <select name="teacher_id" class="form-select form-select-sm">
+                    <option value="">All Instructors</option>
+                    {% for t in teachers %}
+                    <option value="{{ t.id }}" {% if selected_teacher_id == t.id %}selected{% endif %}>{{ t.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label mb-1">Course</label>
+                <select name="course_id" class="form-select form-select-sm">
+                    <option value="">All Courses</option>
+                    {% for c in courses %}
+                    <option value="{{ c.id }}" {% if selected_course_id == c.id %}selected{% endif %}>{{ c.code }} — {{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 d-flex justify-content-end gap-2 pt-1">
+                <button class="btn btn-sm btn-primary">Apply Filters</button>
+                <a href="{{ url_for('main.timetable', day=selected_day) }}" class="btn btn-sm btn-outline-secondary">Clear Filters</a>
+            </div>
         </form>
     </div>
 </div>
@@ -25,24 +77,27 @@
     <table class="table table-bordered text-center align-middle timetable-grid">
         <thead>
             <tr class="table-dark">
-                <th style="width:100px;">Time</th>
-                {% for day in days %}
-                <th>{{ day }}</th>
+                <th style="width:220px;">Lecture Hall / Room</th>
+                {% for slot in day_slots %}
+                <th class="text-nowrap">{{ slot.start_time }}<br><small class="text-muted">{{ slot.end_time }}</small></th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for tr in time_ranges %}
+            {% for room in rooms %}
             <tr>
-                <td class="fw-bold text-nowrap bg-dark">{{ tr[0] }}<br><small class="text-muted">{{ tr[1] }}</small></td>
-                {% for day in days %}
+                <td class="fw-bold text-start bg-dark px-3">
+                    {{ room.name }}
+                    <br>
+                    <small class="text-muted">{{ room.room_type }} · {{ room.faculty }}</small>
+                </td>
+                {% for slot in day_slots %}
                 <td class="p-1">
-                    {% for s in grid[day][tr] %}
+                    {% for s in grid[room.id][slot.id] %}
                     <div class="schedule-card mb-1 p-2 rounded {% if s.offering.course.is_elective %}elective{% endif %}">
                         <strong>{{ s.offering.course.code }}</strong><br>
-                        <small>{{ s.offering.teacher.name }}</small><br>
-                        <span class="badge bg-dark">{{ s.room.name }}</span>
-                        <span class="badge bg-secondary">{{ s.offering.group.name }}</span>
+                        <small class="d-block">Section: {{ s.offering.group.name }}</small>
+                        <small class="text-muted d-block">{{ s.offering.teacher.name }}</small>
                     </div>
                     {% endfor %}
                 </td>
