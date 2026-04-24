@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import db, Teacher, Course, Room, StudentGroup, TimeSlot, CourseOffering, Schedule
-from algorithm import generate_hard_timetable
+from algorithm import generate_timetable
 
 main = Blueprint("main", __name__)
 
@@ -406,7 +406,7 @@ def timetable(day="Mon"):
 
 @main.route("/generate", methods=["POST"])
 def generate():
-    result = generate_hard_timetable()
+    result = generate_timetable()
 
     if not result["success"]:
         metrics = result.get("metrics", {})
@@ -435,10 +435,12 @@ def generate():
     metrics = result.get("metrics", {})
     flash(result.get("message", "Timetable generated."), "success")
     flash(
-        "Scheduled {} sessions | Runtime: {} ms | Restarts: {} | Time: {} | Space: {}".format(
+        "Scheduled {} sessions | Runtime: {} ms | Restarts: {} | Fitness: {} | Penalty: {} | Time: {} | Space: {}".format(
             len(result["assignments"]),
             metrics.get("computation_time_ms", 0),
             metrics.get("restarts_used", 0),
+            metrics.get("fitness", "N/A"),
+            metrics.get("penalty_total", "N/A"),
             metrics.get("time_complexity", "N/A"),
             metrics.get("space_complexity", "N/A"),
         ),
