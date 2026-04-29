@@ -23,6 +23,13 @@
                         <label class="form-label">Sessions Required / Week</label>
                         <input type="number" name="sessions_required" class="form-control" value="3" min="1" max="10">
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Course Type</label>
+                        <select name="course_type" class="form-select">
+                            <option value="Theory" selected>Theory</option>
+                            <option value="Lab">Lab</option>
+                        </select>
+                    </div>
                     <div class="form-check mb-3">
                         <input type="checkbox" name="is_elective" class="form-check-input" id="isElective">
                         <label class="form-check-label" for="isElective">Elective?</label>
@@ -60,10 +67,13 @@
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.sessions_required }}</td>
                                 <td>
+                                    <span class="badge {% if item.course_type == 'Lab' %}bg-primary{% else %}bg-secondary{% endif %}">
+                                        {{ item.course_type }}
+                                    </span>
                                     {% if item.is_elective %}
-                                        <span class="badge bg-warning text-dark">Elective</span>
+                                    <span class="badge bg-warning text-dark">Elective</span>
                                     {% else %}
-                                        <span class="badge bg-secondary">Core</span>
+                                    <span class="badge bg-dark">Core</span>
                                     {% endif %}
                                 </td>
                                 <td class="text-end">
@@ -103,6 +113,13 @@
                                                     <label class="form-label">Sessions Required</label>
                                                     <input type="number" name="sessions_required" class="form-control"
                                                            value="{{ item.sessions_required }}" min="1" max="10">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Course Type</label>
+                                                    <select name="course_type" class="form-select">
+                                                        <option value="Theory" {% if item.course_type != 'Lab' %}selected{% endif %}>Theory</option>
+                                                        <option value="Lab" {% if item.course_type == 'Lab' %}selected{% endif %}>Lab</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-check mb-3">
                                                     <input type="checkbox" name="is_elective" class="form-check-input"

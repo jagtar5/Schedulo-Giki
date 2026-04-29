@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from models import db, Teacher, Course, Room, StudentGroup, TimeSlot, CourseOffering, Schedule
-from algorithm import generate_timetable
+from models import db, Teacher, Course, Room, StudentGroup, TimeSlot, CourseOffering, Schedule, LabCoursePolicy
+from master_algoritham import generate_timetable
 
 main = Blueprint("main", __name__)
 
@@ -113,12 +113,15 @@ def courses():
 
 @main.route("/courses/add", methods=["POST"])
 def add_course():
+    course_type = request.form.get("course_type", "Theory")
     c = Course(
         id=_next_id(Course, "C"),
         code=request.form["code"],
         name=request.form["name"],
         sessions_required=int(request.form.get("sessions_required", 3)),
         is_elective="is_elective" in request.form,
+        course_type=course_type,
+        lab_block_slots=3 if course_type == "Lab" else 1,
     )
     db.session.add(c)
     db.session.commit()
@@ -129,10 +132,13 @@ def add_course():
 @main.route("/courses/<string:id>/edit", methods=["POST"])
 def edit_course(id):
     c = Course.query.get_or_404(id)
+    course_type = request.form.get("course_type", "Theory")
     c.code = request.form["code"]
     c.name = request.form["name"]
     c.sessions_required = int(request.form.get("sessions_required", 3))
     c.is_elective = "is_elective" in request.form
+    c.course_type = course_type
+    c.lab_block_slots = 3 if course_type == "Lab" else 1
     db.session.commit()
     flash(f"Course '{c.code}' updated.", "info")
     return redirect(url_for("main.courses"))
@@ -344,6 +350,47 @@ def delete_offering(id):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+#  LAB COURSE POLICIES (course -> faculty lab mapping)
+# ══════════════════════════════════════════════════════════════════════════════
+
+@main.route("/lab-policies")
+def lab_policies():
+    items = LabCoursePolicy.query.order_by(LabCoursePolicy.course_id).all()
+    lab_courses = Course.query.filter(Course.course_type == "Lab").order_by(Course.code).all()
+    faculties = sorted({r.faculty for r in Room.query.filter(Room.room_type == "Lab").all()})
+    return render_template(
+        "manage_lab_policies.html",
+        items=items,
+        lab_courses=lab_courses,
+        faculties=faculties,
+    )
+
+
+@main.route("/lab-policies/add", methods=["POST"])
+def add_lab_policy():
+    course_id = request.form["course_id"]
+    faculty = request.form["faculty"]
+    existing = LabCoursePolicy.query.filter_by(course_id=course_id).first()
+    if existing:
+        existing.faculty = faculty
+        flash(f"Updated lab policy for {course_id}.", "info")
+    else:
+        db.session.add(LabCoursePolicy(course_id=course_id, faculty=faculty))
+        flash(f"Added lab policy for {course_id}.", "success")
+    db.session.commit()
+    return redirect(url_for("main.lab_policies"))
+
+
+@main.route("/lab-policies/<int:id>/delete", methods=["POST"])
+def delete_lab_policy(id):
+    item = LabCoursePolicy.query.get_or_404(id)
+    db.session.delete(item)
+    db.session.commit()
+    flash("Lab policy deleted.", "warning")
+    return redirect(url_for("main.lab_policies"))
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 #  TIMETABLE VIEW & GENERATE (Phase 2 placeholder)
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -378,6 +425,7 @@ def timetable(day="Mon"):
     teachers = Teacher.query.order_by(Teacher.name).all()
     courses = Course.query.order_by(Course.code).all()
 
+
     # Build room x timeslot matrix
     grid = {room.id: {slot.id: [] for slot in day_slots} for room in rooms}
 
@@ -407,22 +455,11 @@ def timetable(day="Mon"):
 @main.route("/generate", methods=["POST"])
 def generate():
     result = generate_timetable()
+    metrics = result.get("metrics", {})
 
-    if not result["success"]:
-        metrics = result.get("metrics", {})
-        flash(result.get("message", "Timetable generation failed."), "danger")
-        flash(
-            "Runtime: {} ms | Time: {} | Space: {}".format(
-                metrics.get("computation_time_ms", 0),
-                metrics.get("time_complexity", "N/A"),
-                metrics.get("space_complexity", "N/A"),
-            ),
-            "warning",
-        )
-        return redirect(url_for("main.timetable"))
-
+    # Always write whatever assignments we got (even partial) so the UI shows progress.
     Schedule.query.delete()
-    for item in result["assignments"]:
+    for item in result.get("assignments", []):
         db.session.add(
             Schedule(
                 offering_id=item["offering_id"],
@@ -432,15 +469,30 @@ def generate():
         )
     db.session.commit()
 
-    metrics = result.get("metrics", {})
+    if not result.get("success"):
+        flash(result.get("message", "Timetable generation failed."), "danger")
+        if result.get("assignments"):
+            flash(
+                "Saved PARTIAL timetable: {} schedule rows written to DB.".format(len(result["assignments"])),
+                "warning",
+            )
+        flash(
+            "Runtime: {} ms | Restarts: {} | Time: {} | Space: {}".format(
+                metrics.get("computation_time_ms", 0),
+                metrics.get("restarts_used", 0),
+                metrics.get("time_complexity", "N/A"),
+                metrics.get("space_complexity", "N/A"),
+            ),
+            "info",
+        )
+        return redirect(url_for("main.timetable"))
+
     flash(result.get("message", "Timetable generated."), "success")
     flash(
-        "Scheduled {} sessions | Runtime: {} ms | Restarts: {} | Fitness: {} | Penalty: {} | Time: {} | Space: {}".format(
-            len(result["assignments"]),
+        "Scheduled {} rows | Runtime: {} ms | Restarts: {} | Time: {} | Space: {}".format(
+            len(result.get("assignments", [])),
             metrics.get("computation_time_ms", 0),
             metrics.get("restarts_used", 0),
-            metrics.get("fitness", "N/A"),
-            metrics.get("penalty_total", "N/A"),
             metrics.get("time_complexity", "N/A"),
             metrics.get("space_complexity", "N/A"),
         ),

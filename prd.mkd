@@ -1,0 +1,80 @@
+# Product Requirements Document (PRD)
+
+**Project Name:** Automated Timetable Scheduling System
+**Course:** CS378 - Design and Analysis of Algorithms
+**Target Deadline:** May 4th, 2026, 2:00 PM
+**Primary Objective:** Develop an efficient algorithm and functional GUI to automatically generate a feasible, conflict-free weekly timetable for GIK Institute disciplines.
+
+---
+
+## 1. User Flow & Journey
+The system will feature a streamlined, intuitive interface focused on rapid data entry and visual timetable generation. 
+
+1. **Landing Page:** The user is presented with the primary dashboard and two distinct paths:
+    * **Option A: Load Demo Data.** The system populates the database using pre-configured dummy data (Course offerings, predefined time slots, lecture halls).
+    * **Option B: Manual Data Entry.** The user builds the dataset from scratch.
+2. **Entity Management (Manual Route):** * The user navigates through tabs for each entity (Teachers, Courses, Rooms, etc.).
+    * **Auto-ID Generation:** The system automatically assigns a secure UUID or sequential integer ID to every new entity behind the scenes. The user *never* inputs the ID.
+    * The user only fills in the descriptive attributes (e.g., Course Name, Capacity).
+3. **Generation Trigger:** The user clicks "Generate Timetable". The backend algorithm processes the constraints against the active dataset.
+4. **Visual Output:** The user is redirected to a graphical calendar/grid view displaying the scheduled timetable.
+5. **Export/Save:** (Optional) Ability to export the visual grid or view a detailed breakdown of the schedule.
+
+---
+
+## 2. Domain Model (Entities & Attributes)
+To achieve the most optimized result and simplify the constraint-checking logic, we must expand on the baseline entities extracted from the requirements. 
+
+### Extracted Core Entities
+| Entity | Auto-Generated Field | User-Input Fields |
+| :--- | :--- | :--- |
+| **Teacher** | `TeacherID` | `Name`, `Department`, `MaxConsecutiveLectures`, `TargetWeeklyWorkload` |
+| **Course** | `CourseID` | `CourseCode`, `CourseName`, `CreditHours/SessionsRequired`, `IsElective` (Boolean) |
+| **Classroom** | `RoomID` | `RoomName` (e.g., A12), `Capacity`, `RoomType` (Lecture/Lab) |
+| **Time Slot** | `SlotID` | `DayOfWeek`, `StartTime`, `EndTime` |
+| **Student Group** | `GroupID` | `GroupName` (e.g., Batch 33 - Sec A), `TotalStudents` |
+
+### Suggested Analytical Entities (For Algorithm Optimization)
+To make the scheduling algorithm highly efficient, we need mapping entities.
+
+| Entity | Description & Attributes |
+| :--- | :--- |
+| **Course Offering (Class)** | **Crucial for the algorithm.** This combines a `CourseID`, `TeacherID`, and `GroupID`. Instead of scheduling a "Course," the algorithm schedules a "Course Offering." It represents one specific instance of a class that needs a room and a time. |
+| **Teacher Unavailability** | A matrix mapping a `TeacherID` to specific `SlotID`s where they cannot teach (e.g., visiting faculty hours, administrative meetings). |
+| **Room Unavailability** | A matrix mapping a `RoomID` to `SlotID`s when the room is closed for maintenance or booked for external events. |
+
+---
+
+## 3. Algorithmic Constraints
+The core engine must strictly evaluate the following rules during generation. 
+
+### Hard Constraints (Must Evaluate to `True` for a Valid Timetable)
+1. **Teacher Overlap:** A specific `TeacherID` cannot be assigned to more than one `CourseOffering` in the same `SlotID`.
+2. **Classroom Overlap:** A specific `RoomID` cannot host more than one `CourseOffering` in the same `SlotID`.
+3. **Student Group Overlap:** A specific `GroupID` cannot have overlapping classes; they can only attend one `CourseOffering` per `SlotID`.
+4. **Session Fulfillment:** Every `CourseOffering` must be assigned exactly the number of `SlotID`s equivalent to its `SessionsRequired` attribute.
+
+### Soft Constraints (Optimization Parameters / Fitness Function Goals)
+The algorithm should score and attempt to optimize these constraints, penalizing schedules that violate them:
+1. **Student Gap Minimization:** Penalize schedules where a `GroupID` has empty `SlotID`s surrounded by scheduled classes on the same day.
+2. **Consecutive Lecture Cap:** Penalize schedules where a `TeacherID` or `GroupID` has more than an acceptable threshold (e.g., 3) of consecutive `SlotID`s without a break.
+3. **Capacity Efficiency:** Penalize assignments where the `TotalStudents` of a `GroupID` greatly exceeds or drastically underutilizes the `Capacity` of the assigned `RoomID`.
+4. **Workload Distribution:** Ensure the distribution of `SlotID` assignments for a `TeacherID` is spread across the week, avoiding "heavy days".
+5. **Elective Conflict Avoidance:** Elective courses (`IsElective = True`) targeting similar demographics should be scheduled in distinct `SlotID`s to maximize student choice.
+
+---
+
+## 4. Minimum Functional Requirements
+* **Data Management:** Full CRUD (Create, Read, Update, Delete) operations for all entities via the GUI.
+* **Algorithm Execution:** A robust backend process to ingest the current state of entities and execute the scheduling logic.
+* **Visual Rendering:** A dynamic, frontend grid component mapping Days (X-axis) against Time Slots (Y-axis), rendering populated cards showing the Course, Teacher, Room, and Group.
+* **Evaluation Metrics Display:** The GUI must output the final computation time, space complexity limits, and a "Fitness Score" showing how well soft constraints were met.
+
+---
+
+## 5. Documentation & Deliverables Requirements
+To achieve maximum marks, the project execution must include:
+* **Codebase:** Well-structured, documented implementation (Python/Java/C++ etc.).
+* **Project Report:** IEEE format, minimum 1500 words, including Problem Definition, Design, Constraints Strategy, Complexity Analysis (Time/Space), Sample Outputs, and Pseudocode Appendix.
+* **Originality Check:** System must generate unique outputs to avoid similarity penalties, and the report must have a Plagiarism + AI score <= 19%.
+* **Presentation:** Live demonstration of the working GUI and algorithm logic during the Viva.
