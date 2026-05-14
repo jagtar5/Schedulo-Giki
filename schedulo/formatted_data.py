@@ -178,69 +178,6 @@ courses = \
   'name': 'Senior Design Project (Part-II)',
   'sessions_required': 3,
   'is_elective': False},
- {'course_id': 'C176', 'code': 'MS-356', 'name': 'Money and Banking', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C177', 'code': 'EE-421', 'name': 'Programming Tools for Optimization', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C178', 'code': 'ME-333', 'name': 'Heat Transfer', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C179', 'code': 'ME-315', 'name': 'Mechanical Vibration', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C180', 'code': 'EE-241', 'name': 'Numerical Methods for Electrical Engineering', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C181', 'code': 'MS-325', 'name': 'Organizational Behaviour', 'sessions_required': 3, 'is_elective': True},
- {'course_id': 'C182', 'code': 'ME-322', 'name': 'Fluid Mechanics-2', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C183', 'code': 'ME-316', 'name': 'Computer Aided Engineering', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C184', 'code': 'EE-212', 'name': 'Electrical Network Analysis', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C185', 'code': 'EE-223', 'name': 'Microprocessor Systems', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C186', 'code': 'ME-406', 'name': 'Electric Vehicle Technology', 'sessions_required': 3, 'is_elective': True},
- {'course_id': 'C187', 'code': 'EE-231', 'name': 'Electronic Devices and Circuits', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C188', 'code': 'CY-315', 'name': 'Wireless and Mobile Security', 'sessions_required': 3, 'is_elective': True},
- {'course_id': 'C189', 'code': 'MM-141-L', 'name': 'Materials and Nanotechnology', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C190', 'code': 'HM-223', 'name': 'Sociology', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C191', 'code': 'MS-203', 'name': 'Business Research Methods', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C192', 'code': 'HM-102', 'name': 'Critical Thinking and Expository Writing', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C193', 'code': 'CS-112-L', 'name': 'Object Oriented Programming and Design Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C194', 'code': 'CS-361', 'name': 'Computer Architecture', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C195', 'code': 'MS-211', 'name': 'Environmental Sciences', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C196', 'code': 'MS-253', 'name': 'Business Finance', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C197', 'code': 'MS-234', 'name': 'Entrepreneurship', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C198', 'code': 'MS-233', 'name': 'Consumer Behavior', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C199', 'code': 'CE-313', 'name': 'Computer Communication and Networks', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C200', 'code': 'AI-102-L', 'name': 'Python Programming and Freelancing Essentials', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C201', 'code': 'CS-392', 'name': 'Professional Issues in IT', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C202', 'code': 'CE-363', 'name': 'Digital Signal Processing', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C203', 'code': 'CE-342', 'name': 'Computational Methods and Techniques', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C204', 'code': 'CE-222', 'name': 'Computer Organization and Assembly Language', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C205', 'code': 'CE-363-L', 'name': 'Digital Signal Processing Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C206', 'code': 'CE-342-L', 'name': 'Computational Methods and Techniques Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C207', 'code': 'CS-324', 'name': 'HCI and UI/UX Graphics', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C208', 'code': 'HM-211', 'name': 'Islamic Studies', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C209', 'code': 'HM-102-L', 'name': 'Critical Thinking and Expository Writing Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C210', 'code': 'CS-444', 'name': 'Information Retrieval', 'sessions_required': 3, 'is_elective': True},
- {'course_id': 'C211', 'code': 'CS-464', 'name': 'Data and Networks Security', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C212', 'code': 'EE-428', 'name': 'Internet of Things IoT', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C213', 'code': 'MS-291', 'name': 'Engineering Economy', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C214', 'code': 'CY-461', 'name': 'Penetration Testing', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C215', 'code': 'CY-321', 'name': 'Secure Software Design and Development', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C216', 'code': 'CS-232', 'name': 'Database Management Systems', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C217', 'code': 'CY-483', 'name': 'Design Project (Part-III)', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C218', 'code': 'CY-402-L', 'name': 'Cyber Security Capstone Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C219', 'code': 'CY-321-L', 'name': 'Secure Software Design and Development', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C220', 'code': 'CS-375', 'name': 'Cyber Security', 'sessions_required': 3, 'is_elective': True},
- {'course_id': 'C221', 'code': 'CY-201', 'name': 'Cyber Security Principles and Concepts', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C222', 'code': 'MM-101', 'name': 'Materials and Nanotechnology', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C223', 'code': 'CE-231-L', 'name': 'Electronics-I Lab.', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C224', 'code': 'CS-232-L', 'name': 'Database Management Systems Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C225', 'code': 'CE-231', 'name': 'Electronics-I', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C226', 'code': 'MT-102', 'name': 'Differential Equations and Linear Algebra', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C227', 'code': 'EE-314-L', 'name': 'Instrumentation & Measurements Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C228', 'code': 'MS-358', 'name': 'Corporate Finance', 'sessions_required': 3, 'is_elective': True},
- {'course_id': 'C229', 'code': 'SE-202-L', 'name': 'Development Operations Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C230', 'code': 'ES-111', 'name': 'Probability and Statistics', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C231', 'code': 'ES-205', 'name': 'Advanced Linear Algebra', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C232', 'code': 'MS-447', 'name': 'Accounting and Finance', 'sessions_required': 3, 'is_elective': True},
- {'course_id': 'C233', 'code': 'EE-314', 'name': 'Instrumentation & Measurements', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C234', 'code': 'CS-272', 'name': 'HCI and Computer Graphics', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C235', 'code': 'Senior Design Project-2', 'name': 'Senior Design Project-2', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C236', 'code': 'AI-407-L', 'name': 'Artificial Intelligence Capstone Lab', 'sessions_required': 1, 'is_elective': False},
- {'course_id': 'C237', 'code': 'CE-222', 'name': 'Computer Assembly and Organization Language', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C238', 'code': 'AI-221', 'name': 'Machine Learning', 'sessions_required': 3, 'is_elective': False},
  {'course_id': 'C239', 'code': 'AI-204', 'name': 'Concepts in AI', 'sessions_required': 3, 'is_elective': False},
  {'course_id': 'C240', 'code': 'CS-424', 'name': 'Compiler Construction', 'sessions_required': 3, 'is_elective': False},
  {'course_id': 'C241', 'code': 'DS-462', 'name': 'Generative AI with Large Language Models', 'sessions_required': 3, 'is_elective': True},
@@ -298,7 +235,9 @@ courses = \
  {'course_id': 'C289', 'code': 'EE-361-L', 'name': 'Communication Systems Lab', 'sessions_required': 1, 'is_elective': False},
  {'course_id': 'C290', 'code': 'EE-351-L', 'name': 'Linear Control Systems Lab', 'sessions_required': 1, 'is_elective': False},
  {'course_id': 'C291', 'code': 'PH-101', 'name': 'Applied Physics', 'sessions_required': 3, 'is_elective': False},
- {'course_id': 'C292', 'code': 'HM-321', 'name': 'Sociology and Human Behavior', 'sessions_required': 3, 'is_elective': False}]
+ {'course_id': 'C292', 'code': 'HM-321', 'name': 'Sociology and Human Behavior', 'sessions_required': 3, 'is_elective': False},
+ {'course_id': 'C293', 'code': 'CE-313', 'name': 'CCN', 'sessions_required': 3, 'is_elective': False},
+ {'course_id': 'C294', 'code': 'CS-392', 'name': 'Professional Issues ', 'sessions_required': 3, 'is_elective': False}]
 
 teachers = \
 [{'teacher_id': 'T001', 'name': 'Mr. Muntazir Abbas', 'department': 'FCVE'},
@@ -467,7 +406,7 @@ teachers = \
  {'teacher_id': 'T164', 'name': 'Mr. Samiullah Hussain', 'department': 'FCSE'},
  {'teacher_id': 'T165', 'name': 'Dr. Asad Mahmood', 'department': 'FCSE'},
  {'teacher_id': 'T166', 'name': 'Mr. Waheed Iqblal', 'department': 'FCSE'},
- {'teacher_id': 'T167', 'name': 'nan', 'department': 'FCSE'},
+ {'teacher_id': 'T167', 'name': '', 'department': 'FCSE'},
  {'teacher_id': 'T168', 'name': 'Ms. Anmol Sanaullah Khan', 'department': 'FCSE'},
  {'teacher_id': 'T169', 'name': 'Engr. Aneeqa Ramzan', 'department': 'FCSE'},
  {'teacher_id': 'T170', 'name': 'Dr. Farah Saeed', 'department': 'FCSE'},
@@ -702,11 +641,9 @@ offerings = \
  {'offering_id': 'O066', 'course_id': 'C062', 'teacher_id': 'T052', 'group_id': 'G027'},
  {'offering_id': 'O067', 'course_id': 'C063', 'teacher_id': 'T053', 'group_id': 'G028'},
  {'offering_id': 'O068', 'course_id': 'C064', 'teacher_id': 'T046', 'group_id': 'G020'},
- {'offering_id': 'O069', 'course_id': 'C065', 'teacher_id': 'T054', 'group_id': 'G029'},
  {'offering_id': 'O070', 'course_id': 'C066', 'teacher_id': 'T055', 'group_id': 'G030'},
  {'offering_id': 'O071', 'course_id': 'C067', 'teacher_id': 'T056', 'group_id': 'G030'},
  {'offering_id': 'O072', 'course_id': 'C060', 'teacher_id': 'T016', 'group_id': 'G028'},
- {'offering_id': 'O073', 'course_id': 'C065', 'teacher_id': 'T054', 'group_id': 'G031'},
  {'offering_id': 'O074', 'course_id': 'C068', 'teacher_id': 'T057', 'group_id': 'G016'},
  {'offering_id': 'O075', 'course_id': 'C069', 'teacher_id': 'T014', 'group_id': 'G002'},
  {'offering_id': 'O076', 'course_id': 'C070', 'teacher_id': 'T058', 'group_id': 'G002'},
@@ -723,7 +660,6 @@ offerings = \
  {'offering_id': 'O087', 'course_id': 'C081', 'teacher_id': 'T066', 'group_id': 'G035'},
  {'offering_id': 'O088', 'course_id': 'C082', 'teacher_id': 'T067', 'group_id': 'G036'},
  {'offering_id': 'O089', 'course_id': 'C082', 'teacher_id': 'T067', 'group_id': 'G037'},
- {'offering_id': 'O090', 'course_id': 'C065', 'teacher_id': 'T054', 'group_id': 'G038'},
  {'offering_id': 'O091', 'course_id': 'C083', 'teacher_id': 'T068', 'group_id': 'G007'},
  {'offering_id': 'O092', 'course_id': 'C084', 'teacher_id': 'T027', 'group_id': 'G016'},
  {'offering_id': 'O093', 'course_id': 'C085', 'teacher_id': 'T069', 'group_id': 'G039'},
@@ -1051,7 +987,6 @@ offerings = \
  {'offering_id': 'O415', 'course_id': 'C013', 'teacher_id': 'T013', 'group_id': 'G086'},
  {'offering_id': 'O416', 'course_id': 'C004', 'teacher_id': 'T123', 'group_id': 'G111'},
  {'offering_id': 'O417', 'course_id': 'C209', 'teacher_id': 'T171', 'group_id': 'G112'},
- {'offering_id': 'O418', 'course_id': 'C065', 'teacher_id': 'T054', 'group_id': 'G112'},
  {'offering_id': 'O419', 'course_id': 'C036', 'teacher_id': 'T141', 'group_id': 'G009'},
  {'offering_id': 'O420', 'course_id': 'C268', 'teacher_id': 'T031', 'group_id': 'G009'},
  {'offering_id': 'O421', 'course_id': 'C269', 'teacher_id': 'T023', 'group_id': 'G059'},
@@ -1086,7 +1021,6 @@ offerings = \
  {'offering_id': 'O450', 'course_id': 'C226', 'teacher_id': 'T187', 'group_id': 'G117'},
  {'offering_id': 'O451', 'course_id': 'C192', 'teacher_id': 'T171', 'group_id': 'G119'},
  {'offering_id': 'O452', 'course_id': 'C209', 'teacher_id': 'T171', 'group_id': 'G119'},
- {'offering_id': 'O453', 'course_id': 'C065', 'teacher_id': 'T054', 'group_id': 'G119'},
  {'offering_id': 'O454', 'course_id': 'C277', 'teacher_id': 'T185', 'group_id': 'G020'},
  {'offering_id': 'O455', 'course_id': 'C175', 'teacher_id': 'T052', 'group_id': 'G026'},
  {'offering_id': 'O456', 'course_id': 'C144', 'teacher_id': 'T101', 'group_id': 'G060'},
@@ -1150,7 +1084,9 @@ offerings = \
  {'offering_id': 'O514', 'course_id': 'C283', 'teacher_id': 'T130', 'group_id': 'G112'},
  {'offering_id': 'O515', 'course_id': 'C292', 'teacher_id': 'T129', 'group_id': 'G016'},
  {'offering_id': 'O516', 'course_id': 'C288', 'teacher_id': 'T197', 'group_id': 'G048'},
- {'offering_id': 'O517', 'course_id': 'C291', 'teacher_id': 'T191', 'group_id': 'G048'}]
+ {'offering_id': 'O517', 'course_id': 'C291', 'teacher_id': 'T191', 'group_id': 'G048'},
+ {'offering_id': 'O518', 'course_id': 'C293', 'teacher_id': 'T042', 'group_id': 'G094'},
+ {'offering_id': 'O519', 'course_id': 'C294', 'teacher_id': 'T148', 'group_id': 'G094'}]
 
 rooms = \
 [{'room_id': 'R001', 'name': 'FEE Lec 1', 'faculty': 'FEE', 'capacity': 150, 'room_type': 'Lecture'},
@@ -1191,115 +1127,125 @@ rooms = \
  {'room_id': 'R036', 'name': 'General Lec 1', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lecture'},
  {'room_id': 'R037', 'name': 'General Lec 2', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lecture'},
  {'room_id': 'R038', 'name': 'General Lec 3', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lecture'},
- {'room_id': 'R039', 'name': 'General Lab 1', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
- {'room_id': 'R040', 'name': 'General Lab 2', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'}]
+ {'room_id': 'R043', 'name': 'General Lab 5', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R045', 'name': 'General Lab 7', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R046', 'name': 'General Lab 8', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R056', 'name': 'General Lab 19', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R081', 'name': 'General Lab 20', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R057', 'name': 'General Lab 21', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R058', 'name': 'General Lab 22', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R059', 'name': 'General Lab 23', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R060', 'name': 'General Lab 24', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R061', 'name': 'General Lab 25', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R062', 'name': 'General Lab 26', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R063', 'name': 'General Lab 27', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R064', 'name': 'General Lab 28', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R065', 'name': 'General Lab 29', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},
+ {'room_id': 'R072', 'name': 'General Lab 35', 'faculty': 'General', 'capacity': 150, 'room_type': 'Lab'},]
 
 time_slots = \
 [{'slot_id': 'TS001', 'day': 'Mon', 'start_time': '08:00', 'end_time': '08:50'},
- {'slot_id': 'TS002', 'day': 'Mon', 'start_time': '09:00', 'end_time': '09:50'},
- {'slot_id': 'TS003', 'day': 'Mon', 'start_time': '10:00', 'end_time': '10:50'},
- {'slot_id': 'TS004', 'day': 'Mon', 'start_time': '11:00', 'end_time': '11:50'},
- {'slot_id': 'TS005', 'day': 'Mon', 'start_time': '12:00', 'end_time': '12:50'},
- {'slot_id': 'TS006', 'day': 'Mon', 'start_time': '13:00', 'end_time': '13:50'},
- {'slot_id': 'TS007', 'day': 'Mon', 'start_time': '14:00', 'end_time': '14:50'},
- {'slot_id': 'TS008', 'day': 'Mon', 'start_time': '15:00', 'end_time': '15:50'},
- {'slot_id': 'TS009', 'day': 'Tue', 'start_time': '08:00', 'end_time': '08:50'},
- {'slot_id': 'TS010', 'day': 'Tue', 'start_time': '09:00', 'end_time': '09:50'},
- {'slot_id': 'TS011', 'day': 'Tue', 'start_time': '10:00', 'end_time': '10:50'},
- {'slot_id': 'TS012', 'day': 'Tue', 'start_time': '11:00', 'end_time': '11:50'},
- {'slot_id': 'TS013', 'day': 'Tue', 'start_time': '12:00', 'end_time': '12:50'},
- {'slot_id': 'TS014', 'day': 'Tue', 'start_time': '13:00', 'end_time': '13:50'},
- {'slot_id': 'TS015', 'day': 'Tue', 'start_time': '14:00', 'end_time': '14:50'},
- {'slot_id': 'TS016', 'day': 'Tue', 'start_time': '15:00', 'end_time': '15:50'},
- {'slot_id': 'TS017', 'day': 'Wed', 'start_time': '08:00', 'end_time': '08:50'},
- {'slot_id': 'TS018', 'day': 'Wed', 'start_time': '09:00', 'end_time': '09:50'},
- {'slot_id': 'TS019', 'day': 'Wed', 'start_time': '10:00', 'end_time': '10:50'},
- {'slot_id': 'TS020', 'day': 'Wed', 'start_time': '11:00', 'end_time': '11:50'},
- {'slot_id': 'TS021', 'day': 'Wed', 'start_time': '12:00', 'end_time': '12:50'},
- {'slot_id': 'TS022', 'day': 'Wed', 'start_time': '13:00', 'end_time': '13:50'},
- {'slot_id': 'TS023', 'day': 'Wed', 'start_time': '14:00', 'end_time': '14:50'},
- {'slot_id': 'TS024', 'day': 'Wed', 'start_time': '15:00', 'end_time': '15:50'},
- {'slot_id': 'TS025', 'day': 'Thu', 'start_time': '08:00', 'end_time': '08:50'},
- {'slot_id': 'TS026', 'day': 'Thu', 'start_time': '09:00', 'end_time': '09:50'},
- {'slot_id': 'TS027', 'day': 'Thu', 'start_time': '10:00', 'end_time': '10:50'},
- {'slot_id': 'TS028', 'day': 'Thu', 'start_time': '11:00', 'end_time': '11:50'},
- {'slot_id': 'TS029', 'day': 'Thu', 'start_time': '12:00', 'end_time': '12:50'},
- {'slot_id': 'TS030', 'day': 'Thu', 'start_time': '13:00', 'end_time': '13:50'},
- {'slot_id': 'TS031', 'day': 'Thu', 'start_time': '14:00', 'end_time': '14:50'},
- {'slot_id': 'TS032', 'day': 'Thu', 'start_time': '15:00', 'end_time': '15:50'},
- {'slot_id': 'TS033', 'day': 'Fri', 'start_time': '08:00', 'end_time': '08:50'},
- {'slot_id': 'TS034', 'day': 'Fri', 'start_time': '09:00', 'end_time': '09:50'},
- {'slot_id': 'TS035', 'day': 'Fri', 'start_time': '10:00', 'end_time': '10:50'},
- {'slot_id': 'TS036', 'day': 'Fri', 'start_time': '11:00', 'end_time': '11:50'},
- {'slot_id': 'TS037', 'day': 'Fri', 'start_time': '12:00', 'end_time': '12:50'},
- {'slot_id': 'TS038', 'day': 'Fri', 'start_time': '13:00', 'end_time': '13:50'},
- {'slot_id': 'TS039', 'day': 'Fri', 'start_time': '14:00', 'end_time': '14:50'},
- {'slot_id': 'TS040', 'day': 'Fri', 'start_time': '15:00', 'end_time': '15:50'}]
+{'slot_id': 'TS002', 'day': 'Mon', 'start_time': '09:00', 'end_time': '09:50'},
+{'slot_id': 'TS003', 'day': 'Mon', 'start_time': '10:30', 'end_time': '11:20'},
+{'slot_id': 'TS004', 'day': 'Mon', 'start_time': '11:30', 'end_time': '12:20'},
+{'slot_id': 'TS005', 'day': 'Mon', 'start_time': '12:30', 'end_time': '13:20'},
+{'slot_id': 'TS006', 'day': 'Mon', 'start_time': '14:30', 'end_time': '15:20'},
+{'slot_id': 'TS007', 'day': 'Mon', 'start_time': '15:30', 'end_time': '16:20'},
+{'slot_id': 'TS008', 'day': 'Mon', 'start_time': '16:30', 'end_time': '17:20'},
+{'slot_id': 'TS009', 'day': 'Tue', 'start_time': '08:00', 'end_time': '08:50'},
+{'slot_id': 'TS010', 'day': 'Tue', 'start_time': '09:00', 'end_time': '09:50'},
+{'slot_id': 'TS011', 'day': 'Tue', 'start_time': '10:30', 'end_time': '11:20'},
+{'slot_id': 'TS012', 'day': 'Tue', 'start_time': '11:30', 'end_time': '12:20'},
+{'slot_id': 'TS013', 'day': 'Tue', 'start_time': '12:30', 'end_time': '13:20'},
+{'slot_id': 'TS014', 'day': 'Tue', 'start_time': '14:30', 'end_time': '15:20'},
+{'slot_id': 'TS015', 'day': 'Tue', 'start_time': '15:30', 'end_time': '16:20'},
+{'slot_id': 'TS016', 'day': 'Tue', 'start_time': '16:30', 'end_time': '17:20'},
+{'slot_id': 'TS017', 'day': 'Wed', 'start_time': '08:00', 'end_time': '08:50'},
+{'slot_id': 'TS018', 'day': 'Wed', 'start_time': '09:00', 'end_time': '09:50'},
+{'slot_id': 'TS019', 'day': 'Wed', 'start_time': '10:30', 'end_time': '11:20'},
+{'slot_id': 'TS020', 'day': 'Wed', 'start_time': '11:30', 'end_time': '12:20'},
+{'slot_id': 'TS021', 'day': 'Wed', 'start_time': '12:30', 'end_time': '13:20'},
+{'slot_id': 'TS022', 'day': 'Wed', 'start_time': '14:30', 'end_time': '15:20'},
+{'slot_id': 'TS023', 'day': 'Wed', 'start_time': '15:30', 'end_time': '16:20'},
+{'slot_id': 'TS024', 'day': 'Wed', 'start_time': '16:30', 'end_time': '17:20'},
+{'slot_id': 'TS025', 'day': 'Thu', 'start_time': '08:00', 'end_time': '08:50'},
+{'slot_id': 'TS026', 'day': 'Thu', 'start_time': '09:00', 'end_time': '09:50'},
+{'slot_id': 'TS027', 'day': 'Thu', 'start_time': '10:30', 'end_time': '11:20'},
+{'slot_id': 'TS028', 'day': 'Thu', 'start_time': '11:30', 'end_time': '12:20'},
+{'slot_id': 'TS029', 'day': 'Thu', 'start_time': '12:30', 'end_time': '13:20'},
+{'slot_id': 'TS030', 'day': 'Thu', 'start_time': '14:30', 'end_time': '15:20'},
+{'slot_id': 'TS031', 'day': 'Thu', 'start_time': '15:30', 'end_time': '16:20'},
+{'slot_id': 'TS032', 'day': 'Thu', 'start_time': '16:30', 'end_time': '17:20'},
+{'slot_id': 'TS033', 'day': 'Fri', 'start_time': '08:00', 'end_time': '08:50'},
+{'slot_id': 'TS034', 'day': 'Fri', 'start_time': '09:00', 'end_time': '09:50'},
+{'slot_id': 'TS035', 'day': 'Fri', 'start_time': '10:30', 'end_time': '11:20'},
+{'slot_id': 'TS036', 'day': 'Fri', 'start_time': '11:30', 'end_time': '12:20'},
+{'slot_id': 'TS037', 'day': 'Fri', 'start_time': '12:30', 'end_time': '13:20'},
+{'slot_id': 'TS038', 'day': 'Fri', 'start_time': '14:30', 'end_time': '15:20'},
+{'slot_id': 'TS039', 'day': 'Fri', 'start_time': '15:30', 'end_time': '16:20'},
+{'slot_id': 'TS040', 'day': 'Fri', 'start_time': '16:30', 'end_time': '17:20'},]
 
 
-LabCoursePolicy = \
-[{'course_id': 'C005', 'faculty': 'FCSE'},
- {'course_id': 'C007', 'faculty': 'FCSE'},
- {'course_id': 'C021', 'faculty': 'FCSE'},
- {'course_id': 'C022', 'faculty': 'FCSE'},
- {'course_id': 'C023', 'faculty': 'FME'},
- {'course_id': 'C024', 'faculty': 'FEE'},
- {'course_id': 'C025', 'faculty': 'FEE'},
- {'course_id': 'C031', 'faculty': 'FCSE'},
- {'course_id': 'C032', 'faculty': 'FCSE'},
- {'course_id': 'C037', 'faculty': 'FCSE'},
- {'course_id': 'C038', 'faculty': 'FCSE'},
- {'course_id': 'C044', 'faculty': 'FME'},
- {'course_id': 'C045', 'faculty': 'FME'},
- {'course_id': 'C046', 'faculty': 'FCVE'},
- {'course_id': 'C055', 'faculty': 'FME'},
- {'course_id': 'C065', 'faculty': 'General'},
- {'course_id': 'C073', 'faculty': 'FMCE'},
- {'course_id': 'C079', 'faculty': 'General'},
- {'course_id': 'C080', 'faculty': 'FMCE'},
- {'course_id': 'C082', 'faculty': 'FCVE'},
- {'course_id': 'C086', 'faculty': 'FCVE'},
- {'course_id': 'C105', 'faculty': 'FEE'},
- {'course_id': 'C106', 'faculty': 'FMCE'},
- {'course_id': 'C107', 'faculty': 'FMCE'},
- {'course_id': 'C126', 'faculty': 'General'},
- {'course_id': 'C129', 'faculty': 'FCVE'},
- {'course_id': 'C141', 'faculty': 'General'},
- {'course_id': 'C142', 'faculty': 'General'},
- {'course_id': 'C143', 'faculty': 'FCVE'},
- {'course_id': 'C144', 'faculty': 'FEE'},
- {'course_id': 'C145', 'faculty': 'General'},
- {'course_id': 'C153', 'faculty': 'FCVE'},
- {'course_id': 'C157', 'faculty': 'General'},
- {'course_id': 'C162', 'faculty': 'General'},
- {'course_id': 'C173', 'faculty': 'FEE'},
- {'course_id': 'C174', 'faculty': 'FCSE'},
- {'course_id': 'C189', 'faculty': 'FMCE'},
- {'course_id': 'C193', 'faculty': 'FCSE'},
- {'course_id': 'C200', 'faculty': 'FCSE'},
- {'course_id': 'C205', 'faculty': 'FCSE'},
- {'course_id': 'C206', 'faculty': 'FCSE'},
- {'course_id': 'C209', 'faculty': 'FMG'},
- {'course_id': 'C218', 'faculty': 'General'},
- {'course_id': 'C219', 'faculty': 'General'},
- {'course_id': 'C223', 'faculty': 'FCSE'},
- {'course_id': 'C224', 'faculty': 'FCSE'},
- {'course_id': 'C227', 'faculty': 'FEE'},
- {'course_id': 'C229', 'faculty': 'FCSE'},
- {'course_id': 'C236', 'faculty': 'FCSE'},
- {'course_id': 'C244', 'faculty': 'FCSE'},
- {'course_id': 'C245', 'faculty': 'FCSE'},
- {'course_id': 'C249', 'faculty': 'FCSE'},
- {'course_id': 'C269', 'faculty': 'FME'},
- {'course_id': 'C270', 'faculty': 'FCSE'},
- {'course_id': 'C271', 'faculty': 'FME'},
- {'course_id': 'C273', 'faculty': 'FCSE'},
- {'course_id': 'C279', 'faculty': 'FME'},
- {'course_id': 'C281', 'faculty': 'FEE'},
- {'course_id': 'C282', 'faculty': 'FEE'},
- {'course_id': 'C288', 'faculty': 'FES'},
- {'course_id': 'C289', 'faculty': 'FEE'},
- {'course_id': 'C290', 'faculty': 'FEE'}]
+# Dynamically compute LabCoursePolicy:
+# - Assign lab courses to the faculty of their teacher when available.
+# - Each lab room can host up to 5 distinct lab courses (capacity = num_lab_rooms * 5).
+# - If a faculty's capacity is exceeded (or no faculty could be inferred), assign the remaining
+#   lab courses to 'General'.
+_teacher_by_id = {t['teacher_id']: t for t in teachers}
+_lab_rooms_by_faculty = {}
+for r in rooms:
+    if r.get('room_type') == 'Lab':
+        fac = r.get('faculty', 'General')
+        _lab_rooms_by_faculty[fac] = _lab_rooms_by_faculty.get(fac, 0) + 1
+
+def _is_lab_course_local(c):
+    code = str(c.get('code', '')).replace(' ', '').upper()
+    name = str(c.get('name', '')).upper()
+    return ('LAB' in name) or code.endswith('L')
+
+lab_courses = [c for c in courses if _is_lab_course_local(c)]
+
+# Tentatively group lab courses by inferred faculty (from teacher department)
+_tentative = {}
+_unassigned = []
+for c in lab_courses:
+    cid = c['course_id']
+    fac = None
+    for o in offerings:
+        if o.get('course_id') == cid:
+            tid = o.get('teacher_id')
+            t = _teacher_by_id.get(tid)
+            if t:
+                fac = t.get('department')
+                break
+    if fac:
+        _tentative.setdefault(fac, []).append(cid)
+    else:
+        _unassigned.append(cid)
+
+# Compute capacity (max 5 courses per lab room)
+_capacity = {fac: cnt * 5 for fac, cnt in _lab_rooms_by_faculty.items()}
+
+_assigned = {}
+_overflow = []
+for fac, cids in _tentative.items():
+    cap = _capacity.get(fac, 0)
+    if cap <= 0:
+        _overflow.extend(cids)
+    else:
+        _assigned[fac] = cids[:cap]
+        _overflow.extend(cids[cap:])
+
+# Add previously unassigned to overflow
+_overflow.extend(_unassigned)
+
+# Any overflow is assigned to 'General'
+LabCoursePolicy = []
+for fac, cids in _assigned.items():
+    for cid in cids:
+        LabCoursePolicy.append({'course_id': cid, 'faculty': fac})
+for cid in _overflow:
+    LabCoursePolicy.append({'course_id': cid, 'faculty': 'General'})
 
 # ---------------------------------------------------------------------------
 # AUTO-CLEANUP (makes dataset schedulable)

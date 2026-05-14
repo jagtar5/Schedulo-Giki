@@ -1,8 +1,17 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from datetime import datetime
+from pathlib import Path
+
+from flask import Blueprint, render_template, request, redirect, url_for, flash, Response
+from sqlalchemy.orm import joinedload
 from models import db, Teacher, Course, Room, StudentGroup, TimeSlot, CourseOffering, Schedule, LabCoursePolicy
 from master_algoritham import generate_timetable
+from weasyprint import HTML, CSS
+from weekly_pdf_builder import build_column_plan, build_weekly_grid_rows, pick_reference_slots
 
 main = Blueprint("main", __name__)
+
+_PKG_DIR = Path(__file__).resolve().parent
+_TIMETABLE_PDF_CSS = _PKG_DIR / "static" / "css" / "timetable_pdf.css"
 
 
 # ── Helper: generate next sequential string ID ──────────────────────────────
@@ -294,7 +303,11 @@ def offerings():
     selected_group_id = request.args.get("group_id", "").strip()
     selected_course_id = request.args.get("course_id", "").strip()
 
-    items_query = CourseOffering.query
+    items_query = CourseOffering.query.options(
+        joinedload(CourseOffering.course),
+        joinedload(CourseOffering.teacher),
+        joinedload(CourseOffering.group),
+    )
     if selected_group_id:
         items_query = items_query.filter(CourseOffering.group_id == selected_group_id)
     if selected_course_id:
@@ -450,6 +463,102 @@ def timetable(day="Mon"):
         selected_teacher_id=selected_teacher_id,
         selected_course_id=selected_course_id,
     )
+
+
+@main.route("/download_pdf")
+def download_pdf():
+    filter_type = request.args.get("filter", "complete").strip()
+    selected_group_id = request.args.get("group_id", "").strip()
+    selected_teacher_id = request.args.get("teacher_id", "").strip()
+    selected_course_id = request.args.get("course_id", "").strip()
+
+    schedules_query = Schedule.query
+    if filter_type != "complete":
+        schedules_query = schedules_query.join(CourseOffering)
+        if filter_type == "group" and selected_group_id:
+            schedules_query = schedules_query.filter(CourseOffering.group_id == selected_group_id)
+        elif filter_type == "teacher" and selected_teacher_id:
+            schedules_query = schedules_query.filter(CourseOffering.teacher_id == selected_teacher_id)
+        elif filter_type == "course" and selected_course_id:
+            schedules_query = schedules_query.filter(CourseOffering.course_id == selected_course_id)
+
+    all_schedules = (
+        schedules_query.options(
+            joinedload(Schedule.timeslot),
+            joinedload(Schedule.room),
+            joinedload(Schedule.offering).joinedload(CourseOffering.course),
+        ).all()
+    )
+    days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+    time_slots = TimeSlot.query.order_by(TimeSlot.day, TimeSlot.start_time).all()
+
+    # Group time slots by day
+    slots_by_day = {}
+    for ts in time_slots:
+        slots_by_day.setdefault(ts.day, []).append(ts)
+
+    # Get names for title
+    title_suffix = ""
+    if filter_type == "group" and selected_group_id:
+        group = StudentGroup.query.get(selected_group_id)
+        title_suffix = group.name if group else selected_group_id
+    elif filter_type == "teacher" and selected_teacher_id:
+        teacher = Teacher.query.get(selected_teacher_id)
+        title_suffix = teacher.name if teacher else selected_teacher_id
+    elif filter_type == "course" and selected_course_id:
+        course = Course.query.get(selected_course_id)
+        title_suffix = course.code if course else selected_course_id
+
+    ref_slots = pick_reference_slots(slots_by_day, days)
+    column_plan = build_column_plan(ref_slots)
+    weekly_rows, header_labels = build_weekly_grid_rows(
+        days_order=days,
+        column_plan=column_plan,
+        slots_by_day=slots_by_day,
+        schedules=all_schedules,
+    )
+
+    subtitle_map = {
+        "complete": "Weekly overview — all scheduled classes",
+        "group": "Weekly timetable — student group",
+        "teacher": "Weekly timetable — instructor",
+        "course": "Weekly timetable — course offering view",
+    }
+
+    # Render HTML
+    generated_at = datetime.now().strftime("%d %b %Y · %H:%M")
+
+    html_content = render_template(
+        "timetable_pdf.html",
+        filter_type=filter_type,
+        title_suffix=title_suffix,
+        pdf_subtitle=subtitle_map.get(filter_type, ""),
+        header_labels=header_labels,
+        weekly_rows=weekly_rows,
+        show_complete_hint=filter_type == "complete",
+        generated_at=generated_at,
+    )
+
+    html_doc = HTML(string=html_content, base_url=str(_PKG_DIR))
+    if _TIMETABLE_PDF_CSS.is_file():
+        css = CSS(filename=str(_TIMETABLE_PDF_CSS))
+    else:
+        css = CSS(string="@page { size: A4 landscape; margin: 12mm; } body { font-family: sans-serif; font-size: 9pt; }")
+    pdf_buffer = html_doc.write_pdf(stylesheets=[css])
+
+    response = Response(pdf_buffer, mimetype='application/pdf')
+    filename = f"timetable_{filter_type}"
+    if filter_type == "group" and selected_group_id:
+        group = StudentGroup.query.get(selected_group_id)
+        filename += f"_{group.name.replace(' ', '_') if group else selected_group_id}"
+    elif filter_type == "teacher" and selected_teacher_id:
+        teacher = Teacher.query.get(selected_teacher_id)
+        filename += f"_{teacher.name.replace(' ', '_') if teacher else selected_teacher_id}"
+    elif filter_type == "course" and selected_course_id:
+        course = Course.query.get(selected_course_id)
+        filename += f"_{course.code.replace(' ', '_') if course else selected_course_id}"
+    response.headers['Content-Disposition'] = f'attachment; filename={filename}.pdf'
+    return response
 
 
 @main.route("/generate", methods=["POST"])

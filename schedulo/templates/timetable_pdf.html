@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timetable PDF</title>
+</head>
+<body>
+<div class="pdf-frame">
+    <header class="masthead">
+        <div class="brand-row">Weekly teaching timetable</div>
+        <h1 class="doc-title">
+            {% if title_suffix %}{{ title_suffix }}{% else %}Complete schedule{% endif %}
+        </h1>
+        <p class="doc-scope">{{ pdf_subtitle }}</p>
+        <div class="meta-row">
+            <span>View · {{ filter_type|capitalize }}</span>
+            <span>Generated · {{ generated_at }}</span>
+        </div>
+    </header>
+
+    <div class="body-pad">
+        {% if show_complete_hint %}
+        <p class="hint">
+            Multiple entries may appear in one cell when several classes share a slot.
+            Use group or instructor filters in the app for a compact student-style sheet.
+        </p>
+        {% endif %}
+
+        <table class="weekly-table">
+            <thead>
+                <tr>
+                    <th class="corner-th">Day / Time</th>
+                    {% for label in header_labels %}
+                    <th class="{% if label == 'BREAK' %}break-th{% else %}time-th{% endif %}">{{ label }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in weekly_rows %}
+                <tr class="{% if loop.index0 % 2 == 1 %}row-alt{% endif %}">
+                    <td class="day-cell">{{ row.day_title }}</td>
+                    {% for cell in row.cells %}
+                        {% if cell.kind == 'break' %}
+                        <td class="break-cell">—</td>
+                        {% else %}
+                        <td colspan="{{ cell.colspan }}" class="slot-empty">
+                            {% if cell.blocks %}
+                            <div class="stack-wrap">
+                                {% for b in cell.blocks %}
+                                <div class="block {{ b.css }}">
+                                    <span class="code">{{ b.course_code }}</span>
+                                    <span class="venue">{{ b.venue }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p class="pdf-footer">Schedulo · Timetable export · For planning use only</p>
+    </div>
+</div>
+</body>
+</html>
