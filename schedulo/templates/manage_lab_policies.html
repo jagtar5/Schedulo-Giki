@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Lab Course Policies{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-bezier2"></i> Add / Update Lab Policy
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('main.add_lab_policy') }}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Lab Course</label>
+                        <select name="course_id" class="form-select" required>
+                            <option value="">— Select Lab Course —</option>
+                            {% for c in lab_courses %}
+                            <option value="{{ c.id }}">{{ c.code }} — {{ c.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Faculty (Lab Building)</label>
+                        <select name="faculty" class="form-select" required>
+                            <option value="">— Select Faculty —</option>
+                            {% for f in faculties %}
+                            <option value="{{ f }}">{{ f }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button class="btn btn-primary w-100">
+                        <i class="bi bi-plus-lg"></i> Save Policy
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-list-check"></i> Lab Policies ({{ items|length }})
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Course</th>
+                                <th>Faculty Lab</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{ item.course.code }}</span>
+                                    {{ item.course.name }}
+                                </td>
+                                <td>{{ item.faculty }}</td>
+                                <td class="text-end">
+                                    <form action="{{ url_for('main.delete_lab_policy', id=item.id) }}"
+                                          method="post" class="d-inline"
+                                          onsubmit="return confirm('Delete this lab policy?');">
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr><td colspan="4" class="text-center text-muted py-4">No lab policies yet.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

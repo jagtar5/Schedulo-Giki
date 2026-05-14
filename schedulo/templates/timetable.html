@@ -7,6 +7,17 @@
     <div>
         <span class="badge bg-light text-dark fs-6 me-2">{{ day_total }} classes on {{ selected_day }}</span>
         <span class="badge bg-secondary fs-6 me-2">{{ total }} weekly entries</span>
+        {% set filter_type = 'complete' %}
+        {% if selected_group_id %}
+            {% set filter_type = 'group' %}
+        {% elif selected_teacher_id %}
+            {% set filter_type = 'teacher' %}
+        {% elif selected_course_id %}
+            {% set filter_type = 'course' %}
+        {% endif %}
+        <a href="{{ url_for('main.download_pdf', filter=filter_type, group_id=selected_group_id, teacher_id=selected_teacher_id, course_id=selected_course_id) }}" class="btn btn-success me-2">
+            <i class="bi bi-download"></i> Download PDF
+        </a>
         <form action="{{ url_for('main.generate') }}" method="post" class="d-inline">
             <button class="btn btn-warning" id="generateBtn">
                 <i class="bi bi-lightning-charge-fill"></i> Generate Timetable

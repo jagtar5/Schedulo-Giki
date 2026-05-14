@@ -1,0 +1,211 @@
+/* Timetable PDF — optimized for WeasyPrint (A4 landscape) */
+
+@page {
+    size: A4 landscape;
+    margin: 10mm 12mm 14mm 12mm;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Helvetica, Arial, "DejaVu Sans", sans-serif;
+    font-size: 8pt;
+    color: #0f172a;
+    line-height: 1.35;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.pdf-frame {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.masthead {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 14px 18px 16px;
+    text-align: center;
+    border-bottom: 3px solid #3b82f6;
+}
+
+.brand-row {
+    font-size: 7pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+.doc-title {
+    margin: 0;
+    font-size: 15pt;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.doc-scope {
+    margin: 8px 0 0;
+    font-size: 9pt;
+    font-weight: 500;
+    color: #cbd5e1;
+}
+
+.meta-row {
+    display: table;
+    width: 100%;
+    margin-top: 12px;
+    font-size: 7.5pt;
+    color: #94a3b8;
+}
+
+.meta-row span {
+    display: table-cell;
+    width: 50%;
+}
+
+.meta-row span:last-child {
+    text-align: right;
+}
+
+.body-pad {
+    padding: 12px 14px 14px;
+}
+
+.hint {
+    margin: 0 0 12px;
+    padding: 8px 11px;
+    font-size: 7.5pt;
+    color: #475569;
+    background: #f1f5f9;
+    border-left: 3px solid #3b82f6;
+    border-radius: 0 6px 6px 0;
+}
+
+.weekly-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #1e293b;
+}
+
+.weekly-table thead th {
+    background: #1e293b;
+    color: #f8fafc;
+    font-weight: 700;
+    font-size: 7pt;
+    padding: 8px 4px;
+    border: 1px solid #334155;
+    vertical-align: middle;
+}
+
+.corner-th {
+    width: 10%;
+    background: #0f172a !important;
+    font-size: 8pt !important;
+    border-right: 2px solid #3b82f6 !important;
+}
+
+.time-th {
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+
+.break-th {
+    background: #334155 !important;
+    color: #cbd5e1 !important;
+    font-size: 6.5pt !important;
+    letter-spacing: 0.12em;
+}
+
+.weekly-table tbody td {
+    border: 1px solid #cbd5e1;
+    padding: 5px 4px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.day-cell {
+    font-weight: 700;
+    font-size: 8.5pt;
+    background: #f8fafc;
+    color: #0f172a;
+    border-right: 2px solid #e2e8f0 !important;
+}
+
+tr.row-alt .day-cell {
+    background: #f1f5f9;
+}
+
+.break-cell {
+    background: #f1f5f9;
+    color: #cbd5e1;
+    font-weight: 800;
+    font-size: 7pt;
+    letter-spacing: 0.08em;
+}
+
+.slot-empty {
+    background: #ffffff;
+}
+
+tr.row-alt td.slot-empty {
+    background: #fafbfc;
+}
+
+.stack-wrap {
+    width: 100%;
+}
+
+.block {
+    border-radius: 6px;
+    padding: 6px 5px;
+    margin: 0 auto 4px;
+    max-width: 100%;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+}
+
+.stack-wrap .block:last-child {
+    margin-bottom: 0;
+}
+
+.block .code {
+    font-weight: 800;
+    font-size: 8pt;
+    display: block;
+    margin-bottom: 2px;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+.block .venue {
+    font-size: 7pt;
+    color: #475569;
+    display: block;
+    font-weight: 500;
+}
+
+/* Course colour tags — flat fills render quickly in PDF */
+.pastel-a { background: #dbeafe; border-color: #93c5fd; }
+.pastel-b { background: #d1fae5; border-color: #6ee7b7; }
+.pastel-c { background: #fce7f3; border-color: #f9a8d4; }
+.pastel-d { background: #fef3c7; border-color: #fcd34d; }
+.pastel-e { background: #e0e7ff; border-color: #a5b4fc; }
+.pastel-f { background: #ffedd5; border-color: #fdba74; }
+.pastel-g { background: #e5e7eb; border-color: #cbd5e1; }
+.pastel-h { background: #ccfbf1; border-color: #5eead4; }
+
+.pdf-footer {
+    margin: 14px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+    font-size: 7pt;
+    color: #94a3b8;
+    letter-spacing: 0.04em;
+}
